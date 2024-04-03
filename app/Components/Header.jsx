@@ -1,5 +1,5 @@
 
-"use client";
+// "use client";
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faUserPlus } from '@fortawesome/free-solid-svg-icons';
@@ -22,9 +22,9 @@ export const Header = () => {
           </button>
 
           <AddEmploy PopupButton={
-            <button className="btn rounded-sm btn-outline btn-success">
+            <>
               <FontAwesomeIcon icon={faUserPlus} /> Add Employee
-            </button>
+            </>
           } />
 
         </div>

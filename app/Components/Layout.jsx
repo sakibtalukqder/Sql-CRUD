@@ -1,44 +1,45 @@
 "use client";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import EditEmploy from './EditEmploy';
 import Pagination from './Pagination';
+import Link from 'next/link';
 
-const Employ = [
-    {
-        FullName: "Sakib Talukqder",
-        Email: "sakibtalukqder07@gmail.com",
-        Designation: "CTO",
-        ImageUrl: "https://scontent.fdac27-2.fna.fbcdn.net/v/t39.30808-6/428687601_1483747542483678_8072867145600877066_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHE1U3k2QWpi6s_c1k7plNyU-8rmwegHTBT7yubB6AdMGZYoW_M10mLoQkBYWLmQqsow2P4Ah4q0xChX59qyRnf&_nc_ohc=6RraTFo65xIAX9xXS7n&_nc_ht=scontent.fdac27-2.fna&oh=00_AfBGHAu8UFecVVEmKE9_Oxj9u4jZ5YIM4ViDsAX6BSOnZA&oe=660A41BF",
-    },
-    {
-        FullName: "Sakib Talukqder",
-        Email: "sakibtalukqder07@gmail.com",
-        Designation: "CTO",
-        ImageUrl: "https://scontent.fdac27-2.fna.fbcdn.net/v/t39.30808-6/428687601_1483747542483678_8072867145600877066_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHE1U3k2QWpi6s_c1k7plNyU-8rmwegHTBT7yubB6AdMGZYoW_M10mLoQkBYWLmQqsow2P4Ah4q0xChX59qyRnf&_nc_ohc=6RraTFo65xIAX9xXS7n&_nc_ht=scontent.fdac27-2.fna&oh=00_AfBGHAu8UFecVVEmKE9_Oxj9u4jZ5YIM4ViDsAX6BSOnZA&oe=660A41BF",
-    },
-    {
-        FullName: "Sakib Talukqder",
-        Email: "sakibtalukqder07@gmail.com",
-        Designation: "CTO",
-        ImageUrl: "https://scontent.fdac27-2.fna.fbcdn.net/v/t39.30808-6/428687601_1483747542483678_8072867145600877066_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHE1U3k2QWpi6s_c1k7plNyU-8rmwegHTBT7yubB6AdMGZYoW_M10mLoQkBYWLmQqsow2P4Ah4q0xChX59qyRnf&_nc_ohc=6RraTFo65xIAX9xXS7n&_nc_ht=scontent.fdac27-2.fna&oh=00_AfBGHAu8UFecVVEmKE9_Oxj9u4jZ5YIM4ViDsAX6BSOnZA&oe=660A41BF",
-    },
-    {
-        FullName: "Sakib Talukqder",
-        Email: "sakibtalukqder07@gmail.com",
-        Designation: "CTO",
-        ImageUrl: "https://scontent.fdac27-2.fna.fbcdn.net/v/t39.30808-6/428687601_1483747542483678_8072867145600877066_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHE1U3k2QWpi6s_c1k7plNyU-8rmwegHTBT7yubB6AdMGZYoW_M10mLoQkBYWLmQqsow2P4Ah4q0xChX59qyRnf&_nc_ohc=6RraTFo65xIAX9xXS7n&_nc_ht=scontent.fdac27-2.fna&oh=00_AfBGHAu8UFecVVEmKE9_Oxj9u4jZ5YIM4ViDsAX6BSOnZA&oe=660A41BF",
-    },
-    {
-        FullName: "Sakib Talukqder",
-        Email: "sakibtalukqder07@gmail.com",
-        Designation: "CTO",
-        ImageUrl: "https://scontent.fdac27-2.fna.fbcdn.net/v/t39.30808-6/428687601_1483747542483678_8072867145600877066_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHE1U3k2QWpi6s_c1k7plNyU-8rmwegHTBT7yubB6AdMGZYoW_M10mLoQkBYWLmQqsow2P4Ah4q0xChX59qyRnf&_nc_ohc=6RraTFo65xIAX9xXS7n&_nc_ht=scontent.fdac27-2.fna&oh=00_AfBGHAu8UFecVVEmKE9_Oxj9u4jZ5YIM4ViDsAX6BSOnZA&oe=660A41BF",
-    },
-]
+const BaseUrl = "http://localhost:3000/api";
+
+
 
 const Layout = () => {
+
+    // const ImageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fuser-profile&psig=AOvVaw2auMKJwoxHD1Zw5Q_A22fn&ust=1712079762005000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCMDarqPIoYUDFQAAAAAdAAAAABAE"
+
+    const [Employ, setEmploy] = useState();
+
+    const getEmploy = async () => {
+        try {
+            const response = await fetch(`${BaseUrl}/employ`)
+            const result = await response.json();
+
+            if (!response.ok) {
+                console.log(result.error);
+            }
+
+            if (response.ok) {
+                setEmploy(result);
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getEmploy();
+    }, [])
+
+    console.log("Employ List : ", Employ);
+
     return (
         <div className='  md:my-12 lg:my-8 my-0'>
             <div className="overflow-x-auto border-black border-2 p-4">
@@ -56,8 +57,8 @@ const Layout = () => {
                     </thead>
                     <tbody>
                         {
-                            Employ.map((Employ, Index) => (
-                                <tr>
+                            Array.isArray(Employ) ? Employ.map((Employ, Index) => (
+                                <tr key={Index}>
                                     <th>
                                         <label>
                                             <input type="checkbox" className="checkbox" />
@@ -66,9 +67,9 @@ const Layout = () => {
                                     <td>
                                         <div className="flex items-center gap-3">
                                             <div className="avatar">
-                                                <div className="mask mask-squircle rounded-full w-12 h-12">
-                                                    <img src={Employ.ImageUrl} alt="Avatar Tailwind CSS Component" />
-                                                </div>
+                                                <Link href={`/Components/${Employ.id}`} className="rounded-full w-12 h-12 border border-gray-900">
+                                                    <div className='font-bold text-2xl text-center my-2'>{Employ.FullName.charAt(0).toUpperCase()}</div>
+                                                </Link>
                                             </div>
                                             <div>
                                                 <div className="font-bold">{Employ.FullName}</div>
@@ -80,15 +81,18 @@ const Layout = () => {
                                     <th className='flex justify-center pt-6'>
 
                                         <EditEmploy PopupButton={
-                                            <button className="btn btn-ghost btn-xs">
+                                            <>
                                                 <FontAwesomeIcon icon={faEdit} /> Edit
-                                            </button>
+                                            </>
                                         } />
 
                                         <button className="btn btn-ghost btn-xs"><FontAwesomeIcon icon={faTrash} /> Delete</button>
                                     </th>
                                 </tr>
-                            ))
+                            )) : <tr>
+                                <td colSpan={4} className='text-center text-red-600 text-xl p-4 font-bold'>Server Failer Please Wait
+                                    <br />  <div className="loading loading-dots loading-lg"></div></td>
+                            </tr>
                         }
                     </tbody>
                 </table>
