@@ -2,17 +2,16 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import EditEmploy from './EditEmploy';
 import Pagination from './Pagination';
 import Link from 'next/link';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const BaseUrl = "http://localhost:3000/api";
 
 
 
 const Layout = () => {
-
-    // const ImageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Ffree-photos-vectors%2Fuser-profile&psig=AOvVaw2auMKJwoxHD1Zw5Q_A22fn&ust=1712079762005000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCMDarqPIoYUDFQAAAAAdAAAAABAE"
 
     const [Employ, setEmploy] = useState();
 
@@ -38,10 +37,29 @@ const Layout = () => {
         getEmploy();
     }, [])
 
-    console.log("Employ List : ", Employ);
+    const deleteUser = async (id) => {
+        try {
+            const response = await fetch(`${BaseUrl}/employ/${id}`, {
+                method: "DELETE"
+            });
+            if (!response.ok) {
+                console.log(response.error);
+                toast.error("Deleted Data Unsuccessfull .... !")
+            }
+            if (response.ok) {
+                toast.success("Deleted Data Successfull .... !")
+                console.log(response.json());
+                window.location.reload();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     return (
         <div className='  md:my-12 lg:my-8 my-0'>
+            <ToastContainer />
             <div className="overflow-x-auto border-black border-2 p-4">
                 <table className="table">
                     {/* head */}
@@ -73,24 +91,18 @@ const Layout = () => {
                                             </div>
                                             <div>
                                                 <div className="font-bold">{Employ.FullName}</div>
-                                                <div className="text-sm opacity-50">{Employ.Email}</div>
+                                                <div className="text-sm">{Employ.email}</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td>{Employ.Designation}</td>
                                     <th className='flex justify-center pt-6'>
-
-                                        <EditEmploy PopupButton={
-                                            <>
-                                                <FontAwesomeIcon icon={faEdit} /> Edit
-                                            </>
-                                        } />
-
-                                        <button className="btn btn-ghost btn-xs"><FontAwesomeIcon icon={faTrash} /> Delete</button>
+                                        <Link href={`/Components/${Employ.id}`} className="btn btn-ghost btn-xs" ><FontAwesomeIcon icon={faEdit} /> Profule</Link>
+                                        <button onClick={() => deleteUser(Employ.id)} className="btn btn-ghost btn-xs"><FontAwesomeIcon icon={faTrash} /> Delete</button>
                                     </th>
                                 </tr>
                             )) : <tr>
-                                <td colSpan={4} className='text-center text-red-600 text-xl p-4 font-bold'>Server Failer Please Wait
+                                <td colSpan={4} className='text-center text-md p-4 font-bold'>Fetching Data, Please Wait
                                     <br />  <div className="loading loading-dots loading-lg"></div></td>
                             </tr>
                         }

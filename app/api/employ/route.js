@@ -1,4 +1,5 @@
 import { prisma } from "@/config/db";
+import { NextResponse } from "next/server";
 
 export const GET = async () => {
     try {
@@ -18,11 +19,6 @@ export const POST = async (request) => {
         console.log("New Employ", data);
         const result = await prisma.employ.create({ data: data });
         return NextResponse.json({ message: "Employ Added" }, { status: 201 })
-
-        // return new Response(JSON.stringify(data), {
-        //     headers: { 'Content-type': 'application/json' },
-        //     status: 201,
-        // })
 
     } catch (error) {
         return Response.json({ error: error.message });

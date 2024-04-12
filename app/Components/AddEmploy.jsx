@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const BaseUrl = "http://localhost:3000/api";
 
 const AddEmploy = ({ PopupButton }) => {
@@ -25,11 +27,14 @@ const AddEmploy = ({ PopupButton }) => {
             })
 
             if (!response.ok) {
+                toast.error("Data Input Unuccessfull .... !")
                 console.log(response.error);
             }
 
             if (response.ok) {
+                toast.success("Data Input Successfull .... !")
                 console.log(response.json());
+                window.location.reload();
             }
         } catch (error) {
             console.log(error);
@@ -40,6 +45,7 @@ const AddEmploy = ({ PopupButton }) => {
 
     return (
         <div>
+            <ToastContainer theme='dark' />
             <button className="btn rounded-sm btn-outline btn-success" onClick={() => document.getElementById('AddEmploy').showModal()}>{PopupButton}</button>
 
             <dialog id="AddEmploy" className="modal">
