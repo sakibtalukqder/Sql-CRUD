@@ -9,11 +9,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const BaseUrl = "http://localhost:3000/api";
 
-
-
 const Layout = () => {
 
-    const [Employ, setEmploy] = useState();
+
+    const [Employ, setEmploy] = useState([]);
 
     const getEmploy = async () => {
         try {
@@ -56,6 +55,19 @@ const Layout = () => {
         }
     }
 
+    const Pagenate = (data, currentPage, pageSize) => {
+        const startIndex = (currentPage - 1) * pageSize;
+        return data.slice(startIndex, startIndex + pageSize);
+    };
+
+    const [currentPage, setCurrectPage] = useState(1);
+    const pageSize = 5;
+    const onPageChenge = (page) => {
+        setCurrectPage(page)
+    }
+
+    const pagenatedUser = Pagenate(Employ, currentPage, pageSize)
+
 
     return (
         <div className='  md:my-12 lg:my-8 my-0'>
@@ -75,7 +87,7 @@ const Layout = () => {
                     </thead>
                     <tbody>
                         {
-                            Array.isArray(Employ) ? Employ.map((Employ, Index) => (
+                            Array.isArray(Employ) ? pagenatedUser.map((Employ, Index) => (
                                 <tr key={Index}>
                                     <th>
                                         <label>
@@ -109,7 +121,13 @@ const Layout = () => {
                     </tbody>
                 </table>
             </div>
-            <div className='flex justify-center my-8'><Pagination /></div>
+            <div className='flex justify-center my-8'>
+                {
+                    Array.isArray(Employ) ? <>
+                        <Pagination userCount={Employ.length} currentPage={currentPage} pageSize={pageSize} onPageChenge={onPageChenge} />
+                    </> : ""
+                }
+            </div>
         </div>
     );
 };

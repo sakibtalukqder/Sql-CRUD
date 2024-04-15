@@ -1,14 +1,21 @@
 // "use client";
 import React from 'react';
 
-const Pagination = () => {
+const Pagination = ({ userCount, currentPage, pageSize, onPageChenge }) => {
+
+    const totalPage = Math.ceil(userCount / pageSize);
+    const page = Array.from({ length: totalPage }, (_, i) => i + 1);
+
     return (
         <div>
             <div className="join">
-                <input className="join-item btn btn-square" type="radio" name="options" aria-label="1" defaultChecked />
-                <input className="join-item btn btn-square" type="radio" name="options" aria-label="2" />
-                <input className="join-item btn btn-square" type="radio" name="options" aria-label="3" />
-                <input className="join-item btn btn-square" type="radio" name="options" aria-label="4" />
+                {
+                    page.map((Index) => {
+                        return <>
+                            <li className={`join-item btn btn-square ${Index == currentPage ? "defaultChecked" : ""} `} onClick={()=>onPageChenge(Index)}  >{Index}</li>
+                        </>
+                    })
+                }
             </div>
         </div>
     );

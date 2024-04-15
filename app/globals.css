@@ -2,3 +2,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.defaultChecked{
+    background-color: rgb(77, 136, 255);
+}
